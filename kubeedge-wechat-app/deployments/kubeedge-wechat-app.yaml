@@ -9,6 +9,8 @@ spec:
   selector:
     matchLabels:
       k8s-app: kubeedge-wechat-app
+  nodeSelector:
+      node-role.kubernetes.io/master: ""
   template:
     metadata:
       labels:
