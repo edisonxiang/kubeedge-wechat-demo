@@ -23,7 +23,7 @@ func main() {
 	}
 	var m = make(map[string]int)
 	list, _ := files.Readdirnames(0)
-	fmt.Prints("Files read dirnames result: %v\n", list)
+	fmt.Printf("Files read dirnames result: %v\n", list)
 	for _, track := range list {
 		trackWithoutSuffix := strings.TrimSuffix(track, ".mp3")
 		fmt.Println(trackWithoutSuffix)
