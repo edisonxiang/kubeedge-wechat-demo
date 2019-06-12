@@ -17,12 +17,13 @@ import (
 
 func main() {
 
-	files, err := os.Open("/home/pi/Music/")
+	files, err := os.Open("/home/pi/music/")
 	if err != nil {
 		panic(err)
 	}
 	var m = make(map[string]int)
 	list, _ := files.Readdirnames(0)
+	fmt.Prints("Files read dirnames result: %v\n", list)
 	for _, track := range list {
 		trackWithoutSuffix := strings.TrimSuffix(track, ".mp3")
 		fmt.Println(trackWithoutSuffix)
@@ -74,8 +75,8 @@ func main() {
 						trackToPlay = MapRandomKeyGet(m).(string)
 						fmt.Printf("Selected random track %s to play\n", trackToPlay)
 					}
-					fmt.Printf("Playing track : %s\n", "/home/pi/Music/"+trackToPlay+".mp3")
-					cmd = exec.Command("omxplayer", "-o", "local", "/home/pi/Music/"+trackToPlay+".mp3")
+					fmt.Printf("Playing track : %s\n", "/home/pi/music/"+trackToPlay+".mp3")
+					cmd = exec.Command("omxplayer", "-o", "local", "/home/pi/music/"+trackToPlay+".mp3")
 					err = cmd.Run()
 					if err != nil {
 						fmt.Printf("error while playing track = %v\n", err)
