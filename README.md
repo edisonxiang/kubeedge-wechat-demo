@@ -77,7 +77,12 @@ Cross-complie the PI Player App which will run on the RaspBerry PI and play the 
 
 ```sh
 $ cd $GOPATH/src/github.com/edisonxiang/kubeedge-wechat-demo/pi-player-app/
-$ make
+$ export GOARCH=arm
+$ export GOOS="linux"
+$ export GOARM=6
+$ export CGO_ENABLED=1
+$ export CC=arm-linux-gnueabi-gcc
+$ go build -o pi-player-app main.go
 ```
 
 ### Run PI Player App

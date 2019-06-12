@@ -3,36 +3,26 @@ kind: Deployment
 metadata:
   labels:
     k8s-app: kubeedge-wechat-app
-    ke: kubeedge-wechat-app
   name: kubeedge-wechat-app
   namespace: default
 spec:
   selector:
     matchLabels:
       k8s-app: kubeedge-wechat-app
-      ke: kubeedge-wechat-app
   template:
     metadata:
       labels:
         k8s-app: kubeedge-wechat-app
-        ke: kubeedge-wechat-app
     spec:
       hostNetwork: true
       containers:
       - name: kubeedge-wechat-app
-        image: rohitsardesai83/kubeedge-wechat-app:v0.1
+        image: xiangxinyong/kubeedge-wechat-app:v1.0
         volumeMounts:
         - name: wechatsecret
           mountPath: "/etc/secret"
           readOnly: true
         imagePullPolicy: IfNotPresent
-        resources:
-          limits:
-            cpu: 200m
-            memory: 1Gi
-          requests:
-            cpu: 100m
-            memory: 512Mi
       volumes:
       - name: wechatsecret
         secret:
