@@ -26,8 +26,8 @@ and the track is played on the speaker connected to the edge node.
   *Note*:
 
   when you setup edgecore on the RaspBerry PI,
-  Please set the `mqtt mode` into `2` [in this line](https://github.com/kubeedge/kubeedge/blob/master/edge/conf/edge.yaml#L14),
-  and replace `0.0.0.0` with your Kubernetes master ip address [in this line](https://github.com/kubeedge/kubeedge/blob/master/edge/conf/edge.yaml#L11)
+  Please set the `mqtt mode` into `2` [in this line](https://github.com/kubeedge/kubeedge/blob/master/edge/conf/edge.yaml#L4),
+  and replace `0.0.0.0` with your Kubernetes master ip address [in this line](https://github.com/kubeedge/kubeedge/blob/master/edge/conf/edge.yaml#L11).
 
 * In order to control the speaker and play the expected track, we need to manage the speaker connected to the RaspBerry PI.
   KubeEdge allows us to manage devices using Kubernetes custom resource definitions.
