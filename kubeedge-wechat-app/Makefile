@@ -4,7 +4,7 @@ all:build
 
 build:kubeedge-wechat-app
 
-kubeedge-wechat-app
+kubeedge-wechat-app:
 	go build -o kubeedge-wechat-app main.go
 
 docker:kubeedge-wechat-app

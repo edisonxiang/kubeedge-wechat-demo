@@ -4,7 +4,7 @@ all:build
 
 build:pi-player-app
 
-pi-player-app
+pi-player-app:
 	export GOARCH=arm
 	export GOOS="linux"
 	export GOARM=6
