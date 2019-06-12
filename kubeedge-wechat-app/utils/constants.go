@@ -14,6 +14,6 @@ const (
 	AppSecret = "AppSecret"
 	// Token is your token of wechat
 	Token = "Token"
-	// EncodingAESKey is your encoding aes key  of wechat
+	// EncodingAESKey is your encoding aes key of wechat
 	EncodingAESKey = "EncodingAESKey"
 )
