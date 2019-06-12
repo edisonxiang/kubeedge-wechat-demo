@@ -42,7 +42,7 @@ With the Device CRD APIs now installed in the cluster,
 we create the device model and instance for the speaker using the yaml files.
 
 ```sh
-$ cd $GOPATH/github.com/edisonxiang/kubeedge-wechat-demo/kubeedge-wechat/deployments/
+$ cd $GOPATH/src/github.com/edisonxiang/kubeedge-wechat-demo/kubeedge-wechat-app/deployments/
 $ kubectl create -f kubeedge-speaker-model.yaml
 $ kubectl create -f kubeedge-speaker-instance.yaml
 ```
@@ -51,10 +51,14 @@ $ kubectl create -f kubeedge-speaker-instance.yaml
 
 The KubeEdge WeChat App in the demo needs to serve behind WeChat.
 For this the application needs to sign the requests with a WeChat Account.
-Create a Kubernetes [Secret](https://github.com/edisonxiang/kubeedge-wechat-demo) `wechatsecret` with the credentials as below : 
+Create a Kubernetes Secret `wechatsecret` with the credentials as below:
 
 ```sh
-kubectl create secret generic wechatsecret --from-literal=CONSUMER_KEY=<your_consumer_key> --from-literal=CONSUMER_SECRET=<your_consumer_secret> --from-literal=ACCESS_TOKEN=<your_access_token> --from-literal=ACCESS_TOKEN_SECRET=<your_access_token_secret>
+kubectl create secret generic wechatsecret \
+--from-literal=AppID=<Your_WeChat_AppID> \
+--from-literal=AppSecret=<Your_WeChat_AppSecret> \
+--from-literal=Token=<Your_WeChat_Token> \
+--from-literal=EncodingAESKey=<Your_WeChat_EncodingAESKey>
 ```
 
 ### Run KubeEdge WeChat App
@@ -63,7 +67,7 @@ The KubeEdge WeChat App runs in a VM on cloud and serve for WeChat.
 It can be deployed using a Kubernetes deployment yaml.
 
 ```sh
-$ cd $GOPATH/github.com/edisonxiang/kubeedge-wechat-demo/kubeedge-wechat/deployments/
+$ cd $GOPATH/src/github.com/edisonxiang/kubeedge-wechat-demo/kubeedge-wechat/deployments/
 $ kubectl create -f kubeedge-wechat-app.yaml
 ```
 
@@ -72,7 +76,7 @@ $ kubectl create -f kubeedge-wechat-app.yaml
 Cross-complie the PI Player App which will run on the RaspBerry PI and play the expected track.
 
 ```sh
-$ cd $GOPATH/github.com/edisonxiang/kubeedge-wechat-demo/pi-player-app/
+$ cd $GOPATH/src/github.com/edisonxiang/kubeedge-wechat-demo/pi-player-app/
 $ export GOARCH=arm
 $ export GOOS="linux"
 $ export GOARM=6
@@ -98,6 +102,6 @@ $ ./pi-player-app
 
 * Input `kubeedge` to get the music tracks which can be played.
 
-* Input `kubeedge play <track>` to play the music,
+* Input `play <track>` to play the music,
   the track info is pushed to the RaspBerry PI
   and the music is played on the speaker.
