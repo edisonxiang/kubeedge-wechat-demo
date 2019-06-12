@@ -45,22 +45,25 @@ var appURL = "http://localhost:80"
 var config wxcontext.Config
 
 func main() {
-
 	// Create a client to talk to the K8S API server to patch the device CRDs
 	kubeConfig, err := utils.KubeConfig()
 	if err != nil {
-		log.Fatalf("Failed to create KubeConfig , error : %v", err)
+		log.Fatalf("Failed to create KubeConfig, error : %v", err)
 	}
+	log.Println("Get kubeConfig successfully")
+
 	crdClient, err = utils.NewCRDClient(kubeConfig)
 	if err != nil {
 		log.Fatalf("Failed to create device crd client , error : %v", err)
 	}
+	log.Println("Get crdClient successfully")
 
 	// Set WeChat config from the secret mounted in the container.
-	err = setWeChatConfigFromSecret()
+	err = getWeChatConfigFromSecret()
 	if err != nil {
 		log.Fatalf("Failed to create device crd client , error : %v", err)
 	}
+	log.Println("Get WeChat Config from Secret successfully")
 
 	// Listen
 	beego.Any("/", textHandler)
@@ -68,9 +71,8 @@ func main() {
 	beego.Run(":80")
 }
 
-// readWeChatCredentialsFromSecret uses the utility functions
-// to read the credentials to authorize the application with WeChat.
-func setWeChatConfigFromSecret() error {
+// getWeChatConfigFromSecret reads the credentials to authorize the application with WeChat.
+func getWeChatConfigFromSecret() error {
 	var err error
 	appID, err := utils.ReadSecretKey(utils.AppID)
 	if err != nil {
@@ -92,6 +94,11 @@ func setWeChatConfigFromSecret() error {
 		log.Fatalf("Error reading %s : %v", utils.EncodingAESKey, err)
 		return err
 	}
+
+	log.Printf("AppID: %s\n", appID)
+	log.Printf("AppSecret: %s\n", appSecret)
+	log.Printf("Token: %s\n", token)
+	log.Printf("EncodingAESKey: %s\n", encodingAESKey)
 
 	// Contruct config
 	config = wxcontext.Config{
