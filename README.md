@@ -30,9 +30,11 @@ and the track is played on the speaker connected to the edge node.
 
 ## Steps to run the demo
 
-### Get demo code
+### Clone demo code
 
-Clone the demo github [repo](https://github.com/edisonxiang/kubeedge-wechat-demo)
+```sh
+$ git clone https://github.com/edisonxiang/kubeedge-wechat-demo
+```
 
 ### Create the device model and device instance for the speaker
 
