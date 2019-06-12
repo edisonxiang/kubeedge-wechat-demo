@@ -15,20 +15,23 @@ import (
 	"github.com/kubeedge/kubeedge/cloud/pkg/devicecontroller/types"
 )
 
-func main() {
+var musicDir = "/home/pi/music/"
 
-	files, err := os.Open("/home/pi/music/")
+func main() {
+	// Get files
+	files, err := os.Open(musicDir)
 	if err != nil {
 		panic(err)
 	}
-	var m = make(map[string]int)
+	var m = make(map[string]string)
 	list, _ := files.Readdirnames(0)
 	fmt.Printf("Files read dirnames result: %v\n", list)
 	for _, track := range list {
 		trackWithoutSuffix := strings.TrimSuffix(track, ".mp3")
-		fmt.Println(trackWithoutSuffix)
-		m[trackWithoutSuffix] = 1
+		fmt.Printf("Loading track key: %s value: %s\n", trackWithoutSuffix, track)
+		m[trackWithoutSuffix] = track
 	}
+	fmt.Println("Get music list successfully")
 
 	cli := client.New(&client.Options{
 		// Define the processing of the error handler.
@@ -37,8 +40,9 @@ func main() {
 		},
 	})
 
-	stopchan := make(chan int)
+	fmt.Println("Create mqtt client successfully")
 
+	stopchan := make(chan int)
 	// Terminate the Client.
 	defer cli.Terminate()
 
@@ -51,9 +55,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("Connect mqtt client successfully")
 
 	err = cli.Subscribe(&client.SubscribeOptions{
-
 		SubReqs: []*client.SubReq{
 			{
 				TopicFilter: []byte(`$hw/events/device/speaker-01/twin/update/document`),
@@ -63,7 +67,8 @@ func main() {
 					Update := &types.DeviceTwinDocument{}
 					err := json.Unmarshal(message, Update)
 					if err != nil {
-						fmt.Println("error =", err)
+						fmt.Println("Unmarshal error", err)
+						fmt.Printf("Unmarshal error: %v\n", err)
 					}
 					cmd := exec.Command("pkill", "-9", "omxplayer")
 					cmd.Run()
@@ -75,21 +80,23 @@ func main() {
 						trackToPlay = MapRandomKeyGet(m).(string)
 						fmt.Printf("Selected random track %s to play\n", trackToPlay)
 					}
-					fmt.Printf("Playing track : %s\n", "/home/pi/music/"+trackToPlay+".mp3")
-					cmd = exec.Command("omxplayer", "-o", "local", "/home/pi/music/"+trackToPlay+".mp3")
+					fmt.Printf("Playing track: %s\n", musicDir+trackToPlay+".mp3")
+					cmd = exec.Command("omxplayer", "-o", "local", musicDir+trackToPlay+".mp3")
 					err = cmd.Run()
 					if err != nil {
-						fmt.Printf("error while playing track = %v\n", err)
+						fmt.Printf("Error while playing track: %v\n", err)
 					}
 				},
 			},
 		},
 	})
+	fmt.Println("Subscribe mqtt topic successfully")
+
 	<-stopchan
 	if err != nil {
 		panic(err)
 	} else {
-		fmt.Println("Connection Successful:")
+		fmt.Println("Connection successfully")
 	}
 }
 
