@@ -76,7 +76,7 @@ $ export GOOS="linux"
 $ export GOARM=6
 $ export CGO_ENABLED=1
 $ export CC=arm-linux-gnueabi-gcc
-$ ss
+$ go build -o pi-player-app main.go
 ```
 
 ### Run PI Player App
