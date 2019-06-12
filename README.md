@@ -67,7 +67,7 @@ The KubeEdge WeChat App runs in a VM on cloud and serve for WeChat.
 It can be deployed using a Kubernetes deployment yaml.
 
 ```sh
-$ cd $GOPATH/src/github.com/edisonxiang/kubeedge-wechat-demo/kubeedge-wechat/deployments/
+$ cd $GOPATH/src/github.com/edisonxiang/kubeedge-wechat-demo/kubeedge-wechat-app/deployments/
 $ kubectl create -f kubeedge-wechat-app.yaml
 ```
 

@@ -9,13 +9,13 @@ spec:
   selector:
     matchLabels:
       k8s-app: kubeedge-wechat-app
-  nodeSelector:
-      node-role.kubernetes.io/master: ""
   template:
     metadata:
       labels:
         k8s-app: kubeedge-wechat-app
     spec:
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
       hostNetwork: true
       containers:
       - name: kubeedge-wechat-app
