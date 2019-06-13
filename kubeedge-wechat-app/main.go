@@ -144,7 +144,7 @@ func textHandler(ctx *context.Context) {
 	mp, err := wechat.MpMgr()
 	log.Printf("Get MpMgr: %v", mp)
 	if err != nil {
-		log.Fatalf("Failed to get MpMgr: %v", err)
+		log.Printf("Failed to get MpMgr: %v", err)
 		return
 	}
 
@@ -184,7 +184,7 @@ func textHandler(ctx *context.Context) {
 	// 处理消息接收以及回复
 	err = msgHandler.Handle()
 	if err != nil {
-		log.Fatalf("Failed to handle message: %v", err)
+		log.Printf("Failed to handle message: %v", err)
 	}
 }
 
@@ -195,12 +195,12 @@ func UpdateDeviceTwinWithDesiredTrack(track string) bool {
 	deviceStatus := &DeviceStatus{Status: status}
 	body, err := json.Marshal(deviceStatus)
 	if err != nil {
-		log.Fatalf("Failed to marshal device status %v", deviceStatus)
+		log.Printf("Failed to marshal device status %v", deviceStatus)
 		return false
 	}
 	result := crdClient.Patch(utils.MergePatchType).Namespace(namespace).Resource(utils.ResourceTypeDevices).Name(deviceID).Body(body).Do()
 	if result.Error() != nil {
-		log.Fatalf("Failed to patch device status %v of device %v in namespace %v \n error:%+v", deviceStatus, deviceID, namespace, result.Error())
+		log.Printf("Failed to patch device status %v of device %v in namespace %v \n error:%+v", deviceStatus, deviceID, namespace, result.Error())
 		return false
 	} else {
 		log.Printf("Track [ %s ] will be played on speaker %s", track, deviceID)
