@@ -32,9 +32,11 @@ var deviceID = "speaker-01"
 // The default namespace in which the speaker device instance resides
 var namespace = "default"
 
-// A regular expression which evaluates to true if the tweeted text
-// contains `kubeedge play`.
-var r = regexp.MustCompile(`\w*play\w*`)
+// A regular expression which evaluates to true if the text contains `play`.
+var rp = regexp.MustCompile(`\w*play\w*`)
+
+// A regular expression which evaluates to true if the text contains `stop`.
+var rs = regexp.MustCompile(`\w*stop\w*`)
 
 // The CRD client used to patch the device instance.
 var crdClient *rest.RESTClient
@@ -165,15 +167,21 @@ func textHandler(ctx *context.Context) {
 			replyText += "3. 普通朋友\n"
 			replyText += "4. 起风啦\n"
 			replyText += "5. 多余的解释\n"
-			replyText += "请回复play+数字开始播放音乐\n"
+			replyText += "回复play+数字开始播放音乐\n"
 			replyText += "例如：play 1\n"
-		} else if r.MatchString(requestText) {
-			items := r.Split(requestText, -1)
+			replyText += "回复stop停止播放音乐\n"
+		} else if rp.MatchString(requestText) {
+			items := rp.Split(requestText, -1)
 			songTrack := strings.TrimSpace(items[1])
 			log.Printf("Music Track: %s\n", songTrack)
 			// Update device twin
 			UpdateDeviceTwinWithDesiredTrack(songTrack)
 			replyText += "正在尝试播放音乐，请稍等\n"
+		} else if rs.MatchString(requestText) {
+			songTrack := "stop"
+			// Update device twin
+			UpdateDeviceTwinWithDesiredTrack(songTrack)
+			replyText += "正在停止播放音乐，请稍等\n"
 		} else {
 			log.Println("Could not parse the message")
 			replyText += "不能识别您的输入\n"

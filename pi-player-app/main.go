@@ -75,6 +75,12 @@ func main() {
 
 					trackToPlay := *Update.Twin["track"].CurrentState.Expected.Value
 					fmt.Printf("Receive expected track: %s\n", trackToPlay)
+
+					// Stop music
+					if trackToPlay == "stop" {
+						return
+					}
+
 					_, ok := m[trackToPlay]
 					if !ok {
 						fmt.Printf("Could not find song %s in playlist\n", trackToPlay)
