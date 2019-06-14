@@ -176,7 +176,7 @@ func textHandler(ctx *context.Context) {
 			log.Printf("Music Track: %s\n", songTrack)
 			// Update device twin
 			UpdateDeviceTwinWithDesiredTrack(songTrack)
-			replyText += "正在尝试播放音乐，请稍等\n"
+			replyText += "正在开始播放音乐，请稍等\n"
 		} else if rs.MatchString(requestText) {
 			songTrack := "stop"
 			// Update device twin
