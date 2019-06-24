@@ -220,7 +220,7 @@ func buildStatusWithDesiredTrack(song string) v1alpha1.DeviceStatus {
 	metadata := map[string]string{"timestamp": strconv.FormatInt(time.Now().Unix()/1e6, 10),
 		"type": "string",
 	}
-	twins := []v1alpha1.Twin{{PropertyName: "track", Desired: v1alpha1.TwinProperty{Value: song, Metadata: metadata}}}
+	twins := []v1alpha1.Twin{{PropertyName: "track", Desired: v1alpha1.TwinProperty{Value: song, Metadata: metadata}, Reported: v1alpha1.TwinProperty{Value: "unknown", Metadata: metadata}}}
 	devicestatus := v1alpha1.DeviceStatus{Twins: twins}
 	return devicestatus
 }
